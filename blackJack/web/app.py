@@ -1,0 +1,58 @@
+from typing import TYPE_CHECKING, Optional
+
+from aiohttp import web
+from aiohttp_apispec import setup_aiohttp_apispec
+from config import Config
+from dotenv import load_dotenv
+from store import Store, setup_store
+from store.database.database import Database
+from web.middlewares import setup_middlewares
+from web.routes import setup_routes
+
+if TYPE_CHECKING:
+    from store import Store, setup_store
+
+
+class Application(web.Application):
+    config: Optional["Config"] = None
+    store: Optional["Store"] = None
+    database: Optional["Database"] = None
+
+
+class Request(web.Request):
+    @property
+    def app(self) -> Application:
+        return super().app()
+
+
+class View(web.View):
+    @property
+    def request(self) -> Request:
+        return super().request
+
+    @property
+    def database(self):
+        return self.request.app.database
+
+    @property
+    def store(self) -> "Store":
+        return self.request.app.store
+
+    @property
+    def data(self):  # !
+        return self.request.get("data", {})
+
+
+app = Application()
+load_dotenv()
+
+
+def setup_app() -> "Application":
+    app.config = Config()
+    setup_routes(app)
+    setup_aiohttp_apispec(
+        app, title="Vk Quiz Bot", url="/docs", swagger_path="/api/docs/swagger.json"
+    )
+    setup_middlewares(app)
+    setup_store(app)
+    return app

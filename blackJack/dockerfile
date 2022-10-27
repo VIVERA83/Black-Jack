@@ -1,0 +1,11 @@
+FROM python:3.10.4-slim-buster
+WORKDIR blackJack
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+ENV GUNICORN_CMD_ARGS "--bind=0.0.0.0:8000 --worker-class aiohttp.GunicornWebWorker"
+
+RUN pip install --upgrade pip  --no-cache-dir
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
+CMD gunicorn main:app
