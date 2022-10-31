@@ -11,6 +11,7 @@ from web.routes import setup_routes
 
 if TYPE_CHECKING:
     from store import Store, setup_store
+    from bj.schemes import objects
 
 
 class Application(web.Application):
@@ -39,7 +40,7 @@ class View(web.View):
         return self.request.app.store
 
     @property
-    def data(self):  # !
+    def data(self) -> "objects":  # !
         return self.request.get("data", {})
 
 

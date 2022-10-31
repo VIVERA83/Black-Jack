@@ -1,14 +1,15 @@
-from dataclasses import asdict, dataclass, field
-from typing import Optional, Union
+from typing import Optional, Union, Type
+from marshmallow import EXCLUDE, Schema, fields, post_load
+from dataclasses import dataclass
 
 from bj.models import GameSessionModel, PlayerModel
-from marshmallow import EXCLUDE, Schema, fields, post_load
+from bj.dc import Content, GameSessionId, PlayerData
 
-objects = Union[GameSessionModel, PlayerModel]
+objects = Union[GameSessionId, GameSessionModel, PlayerModel, PlayerData]
 
 
 class BaseSchema(Schema):
-    __model__ = Optional[dataclass]
+    __model__ = Optional[objects]
 
     @post_load
     def make_object(self, data, **kwargs) -> objects:  # noqa
@@ -43,29 +44,6 @@ class GameSessionSchema(BaseSchema):
     allowed_actions = fields.List(fields.Str())
 
 
-@dataclass
-class Content:
-    players_id: list[int] = field(default_factory=list)
-    count_deck: int = None
-    initial_balance: int = None
-
-    @property
-    def dict(self) -> dict:
-        return asdict(self)
-
-
-@dataclass
-class GamePlay:
-    action: str = None
-    content: Content = None
-    game_session_id: int = None
-
-
-@dataclass
-class GameResponse:
-    game_session: GameSessionModel
-
-
 class ContentSchema(BaseSchema):
     __model__ = Content
 
@@ -74,15 +52,43 @@ class ContentSchema(BaseSchema):
     initial_balance = fields.Int(required=False)
 
 
-class GamePlaySchema(BaseSchema):
-    __model__ = GamePlay
+class GameSessionIdSchema(BaseSchema):
+    __model__ = GameSessionId
 
-    action = fields.Str(load_default=None)
-    game_session_id = fields.Int()
-    content = fields.Nested(ContentSchema(), load_default=Content())
+    game_session_id = fields.Int(required=True)
 
 
-class GameResponseSchema(BaseSchema):
-    __model__ = GameResponse
+class PlayerDataSchema(BaseSchema):
+    __model__ = PlayerData
 
-    game_session = fields.Nested(GameSessionSchema(), required=False)
+    game_session_id = fields.Int(required=True)
+    player_id = fields.Int(required=True)
+    action = fields.String(required=False)
+
+
+# @dataclass
+# class GamePlay:
+#     action: str = None
+#     content: Content = None
+#     game_session_id: int = None
+#
+#
+# @dataclass
+# class GameResponse:
+#     game_session: GameSessionModel
+#
+#
+#
+#
+# class GamePlaySchema(BaseSchema):
+#     __model__ = GamePlay
+#
+#     action = fields.Str(load_default=None)
+#     game_session_id = fields.Int()
+#     content = fields.Nested(ContentSchema(), load_default=Content())
+#
+#
+# class GameResponseSchema(BaseSchema):
+#     __model__ = GameResponse
+#
+#     game_session = fields.Nested(GameSessionSchema(), required=False)

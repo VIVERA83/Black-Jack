@@ -23,7 +23,7 @@ def create_deck(count_deck: int) -> Deck:
         suit + " " + rang for _ in range(count_deck) for rang in RANKS for suit in SUITS
     ]
     random.shuffle(deck)
-    return deck[:15]
+    return deck
 
 
 def get_point(card: str) -> int:

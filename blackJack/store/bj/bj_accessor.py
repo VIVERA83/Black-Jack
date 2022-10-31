@@ -1,6 +1,6 @@
 from base.base_accessor import BaseAccessor
 from bj.models import GameSessionModel, PlayerModel, StatusGameEnum, StatusPlayerEnum
-from sqlalchemy import bindparam, select, update
+from sqlalchemy import bindparam, select, update, delete, and_
 from sqlalchemy.engine import ChunkedIteratorResult
 from sqlalchemy.orm import selectinload
 from store.bj.utils import create_deck
@@ -93,3 +93,17 @@ class BJAccessor(BaseAccessor):
                 ],
             )
         return players
+
+    async def delete_player_from_game(
+        self, game_session_id: int, player_id: int
+    ) -> GameSessionModel:
+        async with self.app.database.session.begin() as session:
+            await session.execute(
+                delete(PlayerModel).where(
+                    and_(
+                        PlayerModel.game_session_id == game_session_id,
+                        PlayerModel.user_id == player_id,
+                    )
+                )
+            )
+        return await self.get_game_session_by_id(game_session_id)

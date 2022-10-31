@@ -6,6 +6,7 @@ from blackJack.bj.schemes import GamePlaySchema, GameSessionSchema
 from blackJack.web.app import View
 from blackJack.web.middlewares import HTTP_ERROR_CODES
 from blackJack.web.utils import error_json_response, json_response
+from icecream import ic
 
 
 class BJTestView(View):
@@ -13,6 +14,7 @@ class BJTestView(View):
     @request_schema(GamePlaySchema)
     @response_schema(GameSessionSchema)
     async def post(self):
+        ic()
         try:
             response = await self.store.bj_game_play.gameplay(self.data)
         except ValueError as e:
