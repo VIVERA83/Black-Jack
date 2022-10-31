@@ -25,41 +25,41 @@ class StatusPlayerEnum(enum.Enum):
     lost: str = "lost"
 
 
-@dataclass
-class UserModel(db):
-    __tablename__ = "users"
+# @dataclass
+# class UserModel(db):
+#     __tablename__ = "users"
+#
+#     id: int = Column(Integer, primary_key=True, nullable=False)
+#     vk_user_id: int = Column(Integer, nullable=False)
+#
+#     scores: int = relationship("ScoresModel", backref="users", uselist=False)
+#     statistics_data: list["StaticsDataModel"] = relationship(
+#         "StaticsDataModel", backref="users", cascade="all, delete", passive_deletes=True
+#     )
 
-    id: int = Column(Integer, primary_key=True, nullable=False)
-    vk_user_id: int = Column(Integer, nullable=False)
+#
+# @dataclass
+# class StaticsDataModel(db):
+#     __tablename__ = "staticsDatas"
+#
+#     id: int = Column(Integer, primary_key=True, nullable=False)
+#     result: str = Column(Enum(ResultEnum))
+#     score: int = Column(Integer, nullable=True, default=int)
+#     create = Column(TIMESTAMP, nullable=False, default=datetime.now)
+#     user_id: int = Column(
+#         Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+#     )
+#
 
-    scores: int = relationship("ScoresModel", backref="users", uselist=False)
-    statistics_data: list["StaticsDataModel"] = relationship(
-        "StaticsDataModel", backref="users", cascade="all, delete", passive_deletes=True
-    )
-
-
-@dataclass
-class StaticsDataModel(db):
-    __tablename__ = "staticsDatas"
-
-    id: int = Column(Integer, primary_key=True, nullable=False)
-    result: str = Column(Enum(ResultEnum))
-    score: int = Column(Integer, nullable=True, default=int)
-    create = Column(TIMESTAMP, nullable=False, default=datetime.now)
-    user_id: int = Column(
-        Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False
-    )
-
-
-@dataclass
-class ScoresModel(db):
-    __tablename__ = "scores"
-
-    id: int = Column(Integer, primary_key=True, nullable=False)
-    user_id: int = Column(
-        Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False
-    )
-    scores: int = Column(Integer, nullable=False, default=int)
+# @dataclass
+# class ScoresModel(db):
+#     __tablename__ = "scores"
+#
+#     id: int = Column(Integer, primary_key=True, nullable=False)
+#     user_id: int = Column(
+#         Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False
+#     )
+#     scores: int = Column(Integer, nullable=False, default=int)
 
 
 @dataclass
