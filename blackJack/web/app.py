@@ -49,7 +49,7 @@ def setup_app() -> "Application":
     app.config = Config()
     setup_routes(app)
     setup_aiohttp_apispec(
-        app, title="Vk Quiz Bot", url="/docs", swagger_path="/api/docs/swagger.json"
+        app, title="Black Jack", url="/api/docs/swagger.json", swagger_path="/docs"
     )
     setup_middlewares(app)
     setup_store(app)
