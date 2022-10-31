@@ -3,7 +3,6 @@ from typing import Optional
 from base.base_accessor import BaseAccessor
 from bj.models import GameSessionModel, PlayerModel
 from bj.schemes import Content
-from icecream import ic
 
 
 class BJGamePlay(BaseAccessor):
@@ -138,7 +137,7 @@ class BJGamePlay(BaseAccessor):
     def _get_point(card: str, scores: int) -> int:
         """
         # ПЕРЕДЕЛАТЬ
-        Возвращает ценность карты, учетом Туза
+        Возвращает ценность карты, c учетом Туза
         :param card:
         :param scores:
         :return:

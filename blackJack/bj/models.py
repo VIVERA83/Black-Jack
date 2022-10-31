@@ -1,18 +1,12 @@
 import enum
 from dataclasses import dataclass
-from datetime import datetime
 
-from sqlalchemy import ARRAY, TIMESTAMP, Column, Enum, ForeignKey, Integer, String
+from sqlalchemy import ARRAY, Column, Enum, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 from store.database.sqlalchemy_base import db
 
 Card = str
 Deck = list[Card]
-
-
-class ResultEnum(enum.Enum):
-    win: str = "win"
-    lost: str = "loss"
 
 
 class StatusGameEnum(enum.Enum):
@@ -25,46 +19,9 @@ class StatusPlayerEnum(enum.Enum):
     lost: str = "lost"
 
 
-# @dataclass
-# class UserModel(db):
-#     __tablename__ = "users"
-#
-#     id: int = Column(Integer, primary_key=True, nullable=False)
-#     vk_user_id: int = Column(Integer, nullable=False)
-#
-#     scores: int = relationship("ScoresModel", backref="users", uselist=False)
-#     statistics_data: list["StaticsDataModel"] = relationship(
-#         "StaticsDataModel", backref="users", cascade="all, delete", passive_deletes=True
-#     )
-
-#
-# @dataclass
-# class StaticsDataModel(db):
-#     __tablename__ = "staticsDatas"
-#
-#     id: int = Column(Integer, primary_key=True, nullable=False)
-#     result: str = Column(Enum(ResultEnum))
-#     score: int = Column(Integer, nullable=True, default=int)
-#     create = Column(TIMESTAMP, nullable=False, default=datetime.now)
-#     user_id: int = Column(
-#         Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False
-#     )
-#
-
-# @dataclass
-# class ScoresModel(db):
-#     __tablename__ = "scores"
-#
-#     id: int = Column(Integer, primary_key=True, nullable=False)
-#     user_id: int = Column(
-#         Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False
-#     )
-#     scores: int = Column(Integer, nullable=False, default=int)
-
-
 @dataclass
 class GameSessionModel(db):
-    __tablename__ = "game_sessions"
+    __tablename__ = "game_sessions"  # noqa
 
     id: int = Column(Integer, primary_key=True, nullable=False)
     index: int = Column(Integer, nullable=False)
@@ -83,7 +40,7 @@ class GameSessionModel(db):
 
 @dataclass
 class PlayerModel(db):
-    __tablename__ = "players"
+    __tablename__ = "players"  # noqa
 
     id: int = Column(Integer, primary_key=True, nullable=False)
     user_id: int = Column(Integer, nullable=False)

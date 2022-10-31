@@ -1,1 +1,1 @@
-from bj.models import *
+from bj.models import *  # noqa

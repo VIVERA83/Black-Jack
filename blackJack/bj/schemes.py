@@ -1,11 +1,8 @@
-from typing import Optional, Union, Type
+from typing import Optional
 from marshmallow import EXCLUDE, Schema, fields, post_load
-from dataclasses import dataclass
 
 from bj.models import GameSessionModel, PlayerModel
-from bj.dc import Content, GameSessionId, PlayerData
-
-objects = Union[GameSessionId, GameSessionModel, PlayerModel, PlayerData]
+from bj.dc import Content, GameSessionId, PlayerData, objects
 
 
 class BaseSchema(Schema):
@@ -64,31 +61,3 @@ class PlayerDataSchema(BaseSchema):
     game_session_id = fields.Int(required=True)
     player_id = fields.Int(required=True)
     action = fields.String(required=False)
-
-
-# @dataclass
-# class GamePlay:
-#     action: str = None
-#     content: Content = None
-#     game_session_id: int = None
-#
-#
-# @dataclass
-# class GameResponse:
-#     game_session: GameSessionModel
-#
-#
-#
-#
-# class GamePlaySchema(BaseSchema):
-#     __model__ = GamePlay
-#
-#     action = fields.Str(load_default=None)
-#     game_session_id = fields.Int()
-#     content = fields.Nested(ContentSchema(), load_default=Content())
-#
-#
-# class GameResponseSchema(BaseSchema):
-#     __model__ = GameResponse
-#
-#     game_session = fields.Nested(GameSessionSchema(), required=False)

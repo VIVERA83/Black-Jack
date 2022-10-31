@@ -11,8 +11,6 @@ from web.app import View
 from web.middlewares import HTTP_ERROR_CODES
 from web.utils import error_json_response, json_response
 
-from icecream import ic
-
 
 class NewGame(View):
     @docs(tags=["bj"], summary="Новая игра", description="Создание новой игры")

@@ -2,11 +2,11 @@ import typing
 from logging import getLogger
 
 if typing.TYPE_CHECKING:
-    from app.web.app import Application
+    from blackJack.web.app import Application
 
 
 class BaseAccessor:
-    def __init__(self, app: "Application", *args, **kwargs):
+    def __init__(self, app: "Application", *args, **kwargs):  # noqa
         self.app = app
         self.logger = getLogger("accessor")
         app.on_startup.append(self.connect)

@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Optional
+from typing import Optional
 
 from aiohttp import web
 from aiohttp_apispec import setup_aiohttp_apispec
@@ -8,10 +8,7 @@ from store import Store, setup_store
 from store.database.database import Database
 from web.middlewares import setup_middlewares
 from web.routes import setup_routes
-
-if TYPE_CHECKING:
-    from store import Store, setup_store
-    from bj.schemes import objects
+from bj.schemes import objects
 
 
 class Application(web.Application):
@@ -40,7 +37,7 @@ class View(web.View):
         return self.request.app.store
 
     @property
-    def data(self) -> "objects":  # !
+    def data(self) -> "objects":
         return self.request.get("data", {})
 
 

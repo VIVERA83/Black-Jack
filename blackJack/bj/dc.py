@@ -1,4 +1,12 @@
+from typing import Union, Type
 from dataclasses import asdict, dataclass, field
+
+objects = Union[
+    Type["GameSessionId"],
+    Type["GameSessionModel"],
+    Type["PlayerModel"],
+    Type["PlayerData"],
+]
 
 
 @dataclass
