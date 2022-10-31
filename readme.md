@@ -6,6 +6,7 @@ ______
 * Api к игре:
     * Aiohttp
     * PostgresSQL
+
 вызов:
 
 - http://localhost:8080/docs - api swagger
