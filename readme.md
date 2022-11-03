@@ -6,6 +6,7 @@ ______
 * Api к игре:
     * Aiohttp
     * PostgresSQL
+
 вызов:
 
 - http://localhost:8080/docs - api swagger
@@ -17,6 +18,6 @@ docker-compose up --build
 ````
 
 ОБРАТИ ВНИМАНИЕ:
-- Не забудь создать .env для докера, образец лежит в [.env_example](.env.example)
+- Не забудь создать .env для докера, образец лежит в [.env_example](.env_example)
 
 _____
