@@ -38,6 +38,8 @@ class View(web.View):
 
     @property
     def data(self) -> "objects":
+        if self.request.method == "GET":
+            return self.request.get("querystring", {})
         return self.request.get("data", {})
 
 

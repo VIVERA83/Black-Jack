@@ -9,7 +9,7 @@ class BaseSchema(Schema):
     __model__ = Optional[objects]
 
     @post_load
-    def make_object(self, data, **kwargs) -> objects:  # noqa
+    def make_object(self, data, **kwargs) -> objects:  # noqa **kwargs
         return self.__model__(**data)
 
     class Meta:

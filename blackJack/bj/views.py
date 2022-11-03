@@ -1,6 +1,6 @@
 from http.client import BAD_REQUEST
 
-from aiohttp_apispec import docs, request_schema, response_schema
+from aiohttp_apispec import docs, request_schema, response_schema, querystring_schema
 from bj.schemes import (
     GameSessionSchema,
     ContentSchema,
@@ -55,7 +55,7 @@ class MovePlayer(View):
         tags=["bj"],
         summary="Ход игрока",
         description="Действия игрока, может быть как `move player` - взять карту,"
-        " остальные трактуются как пропуск хода",
+                    " остальные трактуются как пропуск хода",
     )
     @request_schema(PlayerDataSchema)
     @response_schema(GameSessionSchema)
@@ -110,6 +110,26 @@ class QuitGamePlayer(View):
             response = await self.store.bj_game_play.quit_game_player(
                 game_session_id=self.data.game_session_id, player_id=self.data.player_id
             )
+        except ValueError as e:
+            return error_json_response(
+                message=e.args[0],
+                http_status=BAD_REQUEST,
+                status=HTTP_ERROR_CODES[BAD_REQUEST],
+            )
+        return json_response(data=GameSessionSchema(exclude=["deck"]).dump(response))
+
+
+class GetGameSession(View):
+    @docs(
+        tags=["bj"],
+        summary="Получить игровую сессию",
+        description="Получить игровую сессию по `id`",
+    )
+    @querystring_schema(GameSessionIdSchema)
+    @response_schema(GameSessionSchema)
+    async def get(self):
+        try:
+            response = await self.store.bj.get_game_session_by_id(self.data.game_session_id)
         except ValueError as e:
             return error_json_response(
                 message=e.args[0],

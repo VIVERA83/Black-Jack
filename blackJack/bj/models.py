@@ -5,9 +5,6 @@ from sqlalchemy import ARRAY, Column, Enum, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 from store.database.sqlalchemy_base import db
 
-Card = str
-Deck = list[Card]
-
 
 class StatusGameEnum(enum.Enum):
     active: str = "active"
@@ -26,7 +23,7 @@ class GameSessionModel(db):
     id: int = Column(Integer, primary_key=True, nullable=False)
     index: int = Column(Integer, nullable=False)
     current_user_vk_id: int = Column(Integer)
-    deck: Deck = Column(ARRAY(String))
+    deck: list[str] = Column(ARRAY(String))
     status_game: str = Column(Enum(StatusGameEnum))
     players: list["PlayerModel"] = relationship(
         "PlayerModel",
@@ -46,7 +43,7 @@ class PlayerModel(db):
     user_id: int = Column(Integer, nullable=False)
     balance: int = Column(Integer, nullable=False)
     score: int = Column(Integer, nullable=False, default=int)
-    hand: Deck = Column(ARRAY(String))
+    hand: list[str] = Column(ARRAY(String))
     status: str = Column(Enum(StatusPlayerEnum))
 
     game_session_id: int = Column(
