@@ -17,14 +17,7 @@ class NewGame(View):
     @request_schema(ContentSchema)
     @response_schema(GameSessionSchema)
     async def post(self):
-        try:
-            response = await self.store.bj_game_play.new_game(self.data)
-        except ValueError as e:
-            return error_json_response(
-                message=e.args[0],
-                http_status=BAD_REQUEST,
-                status=HTTP_ERROR_CODES[BAD_REQUEST],
-            )
+        response = await self.store.bj_game_play.new_game(self.data)
         return json_response(data=GameSessionSchema(exclude=["deck"]).dump(response))
 
 
@@ -37,16 +30,8 @@ class NewRound(View):
     @request_schema(GameSessionIdSchema)
     @response_schema(GameSessionSchema)
     async def post(self):
-        try:
-            response = await self.store.bj_game_play.new_round(
-                game_session_id=self.data.game_session_id
-            )
-        except ValueError as e:
-            return error_json_response(
-                message=e.args[0],
-                http_status=BAD_REQUEST,
-                status=HTTP_ERROR_CODES[BAD_REQUEST],
-            )
+        response = await self.store.bj_game_play.new_round(
+            game_session_id=self.data.game_session_id)
         return json_response(data=GameSessionSchema(exclude=["deck"]).dump(response))
 
 
@@ -60,18 +45,11 @@ class MovePlayer(View):
     @request_schema(PlayerDataSchema)
     @response_schema(GameSessionSchema)
     async def post(self):
-        try:
-            response = await self.store.bj_game_play.move_player(
-                game_session_id=self.data.game_session_id,
-                player_id=self.data.player_id,
-                action=self.data.action,
-            )
-        except ValueError as e:
-            return error_json_response(
-                message=e.args[0],
-                http_status=BAD_REQUEST,
-                status=HTTP_ERROR_CODES[BAD_REQUEST],
-            )
+        response = await self.store.bj_game_play.move_player(
+            game_session_id=self.data.game_session_id,
+            player_id=self.data.player_id,
+            action=self.data.action,
+        )
         return json_response(data=GameSessionSchema(exclude=["deck"]).dump(response))
 
 
@@ -84,16 +62,9 @@ class RoundEnd(View):
     @request_schema(GameSessionIdSchema)
     @response_schema(GameSessionSchema)
     async def post(self):
-        try:
-            response = await self.store.bj_game_play.round_end(
-                game_session_id=self.data.game_session_id
-            )
-        except ValueError as e:
-            return error_json_response(
-                message=e.args[0],
-                http_status=BAD_REQUEST,
-                status=HTTP_ERROR_CODES[BAD_REQUEST],
-            )
+        response = await self.store.bj_game_play.round_end(
+            game_session_id=self.data.game_session_id
+        )
         return json_response(data=GameSessionSchema(exclude=["deck"]).dump(response))
 
 
@@ -106,15 +77,8 @@ class QuitGamePlayer(View):
     @request_schema(PlayerDataSchema)
     @response_schema(GameSessionSchema)
     async def post(self):
-        try:
-            response = await self.store.bj_game_play.quit_game_player(
+        response = await self.store.bj_game_play.quit_game_player(
                 game_session_id=self.data.game_session_id, player_id=self.data.player_id
-            )
-        except ValueError as e:
-            return error_json_response(
-                message=e.args[0],
-                http_status=BAD_REQUEST,
-                status=HTTP_ERROR_CODES[BAD_REQUEST],
             )
         return json_response(data=GameSessionSchema(exclude=["deck"]).dump(response))
 
@@ -128,12 +92,5 @@ class GetGameSession(View):
     @querystring_schema(GameSessionIdSchema)
     @response_schema(GameSessionSchema)
     async def get(self):
-        try:
-            response = await self.store.bj.get_game_session_by_id(self.data.game_session_id)
-        except ValueError as e:
-            return error_json_response(
-                message=e.args[0],
-                http_status=BAD_REQUEST,
-                status=HTTP_ERROR_CODES[BAD_REQUEST],
-            )
+        response = await self.store.bj.get_game_session_by_id(self.data.game_session_id)
         return json_response(data=GameSessionSchema(exclude=["deck"]).dump(response))
