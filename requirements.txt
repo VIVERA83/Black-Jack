@@ -6,3 +6,4 @@ asyncpg==0.26.0
 alembic==1.8.1
 gunicorn==20.1.0
 marshmallow_enum==1.5.1
+aiohttp_apispec==2.2.3
