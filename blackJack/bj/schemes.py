@@ -39,6 +39,7 @@ class GameSessionSchema(BaseSchema):
     players = fields.List(fields.Nested(PlayerSchema()))
     players_list = fields.List(fields.Int())
     allowed_actions = fields.List(fields.Str())
+    modification = fields.DateTime()
 
 
 class ContentSchema(BaseSchema):

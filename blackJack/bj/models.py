@@ -1,7 +1,7 @@
 import enum
 from dataclasses import dataclass
-
-from sqlalchemy import ARRAY, Column, Enum, ForeignKey, Integer, String
+from datetime import datetime
+from sqlalchemy import ARRAY, Column, Enum, ForeignKey, Integer, String, TIMESTAMP
 from sqlalchemy.orm import relationship
 from store.database.sqlalchemy_base import db
 
@@ -33,6 +33,7 @@ class GameSessionModel(db):
     )
     players_list: list[int] = Column(ARRAY(Integer))
     allowed_actions: list[str] = Column(ARRAY(String))
+    modification: datetime = Column(TIMESTAMP, default=datetime.now())
 
 
 @dataclass
