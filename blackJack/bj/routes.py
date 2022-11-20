@@ -1,6 +1,13 @@
 import typing
 
-from bj.views import NewGame, NewRound, MovePlayer, RoundEnd, QuitGamePlayer, GetGameSession
+from bj.views import (
+    NewGame,
+    NewRound,
+    MovePlayer,
+    RoundEnd,
+    QuitGamePlayer,
+    GetGameSession,
+)
 
 if typing.TYPE_CHECKING:
     from web.app import Application

@@ -135,7 +135,7 @@ class BJGamePlay(BaseAccessor):
 
     @staticmethod
     def _get_point(card: str, scores: int) -> int:
-        """ Возвращает ценность карты, c учетом Туза """
+        """Возвращает ценность карты, c учетом Туза"""
         rang = card.split(" ")[1]
         if rang == "A":
             return 11 if (scores + 11) <= 21 else 1

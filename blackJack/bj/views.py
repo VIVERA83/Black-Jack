@@ -1,5 +1,3 @@
-from http.client import BAD_REQUEST
-
 from aiohttp_apispec import docs, request_schema, response_schema, querystring_schema
 from bj.schemes import (
     GameSessionSchema,
@@ -8,8 +6,7 @@ from bj.schemes import (
     PlayerDataSchema,
 )
 from web.app import View
-from web.middlewares import HTTP_ERROR_CODES
-from web.utils import error_json_response, json_response
+from web.utils import json_response
 
 
 class NewGame(View):
@@ -31,7 +28,8 @@ class NewRound(View):
     @response_schema(GameSessionSchema)
     async def post(self):
         response = await self.store.bj_game_play.new_round(
-            game_session_id=self.data.game_session_id)
+            game_session_id=self.data.game_session_id
+        )
         return json_response(data=GameSessionSchema(exclude=["deck"]).dump(response))
 
 
@@ -40,7 +38,7 @@ class MovePlayer(View):
         tags=["bj"],
         summary="Ход игрока",
         description="Действия игрока, может быть как `move player` - взять карту,"
-                    " остальные трактуются как пропуск хода",
+        " остальные трактуются как пропуск хода",
     )
     @request_schema(PlayerDataSchema)
     @response_schema(GameSessionSchema)
@@ -78,8 +76,8 @@ class QuitGamePlayer(View):
     @response_schema(GameSessionSchema)
     async def post(self):
         response = await self.store.bj_game_play.quit_game_player(
-                game_session_id=self.data.game_session_id, player_id=self.data.player_id
-            )
+            game_session_id=self.data.game_session_id, player_id=self.data.player_id
+        )
         return json_response(data=GameSessionSchema(exclude=["deck"]).dump(response))
 
 
